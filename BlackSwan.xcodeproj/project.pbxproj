@@ -20,6 +20,7 @@
 		A1000001000000000000000B /* ScanConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001000000000000000B; };
 		A1000001000000000000000C /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001000000000000000C; };
 		A1000001000000000000000D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000001000000000000000D; };
+		A1000001000000000000000E /* slipnet in CopyFiles */ = {isa = PBXBuildFile; fileRef = A20000010000000000000010; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,8 +38,22 @@
 		A2000001000000000000000C /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		A2000001000000000000000D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2000001000000000000000E /* BlackSwan.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlackSwan.entitlements; sourceTree = "<group>"; };
-		A2000001000000000000000F /* BlackSwan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlackSwan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2000001000000000000000F /* Slipnet-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Slipnet-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000010000000000000010 /* slipnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = slipnet; path = slipnet; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A60000010000000000000003 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				A1000001000000000000000E /* slipnet in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A30000010000000000000001 /* Frameworks */ = {
@@ -55,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				A40000010000000000000002 /* BlackSwan */,
+				A20000010000000000000010 /* slipnet */,
 				A40000010000000000000005 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,7 +115,7 @@
 		A40000010000000000000005 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A2000001000000000000000F /* BlackSwan.app */,
+				A2000001000000000000000F /* Slipnet-macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,21 +123,22 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A50000010000000000000001 /* BlackSwan */ = {
+		A50000010000000000000001 /* Slipnet-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A70000010000000000000003 /* Build configuration list for PBXNativeTarget "BlackSwan" */;
+			buildConfigurationList = A70000010000000000000003 /* Build configuration list for PBXNativeTarget "Slipnet-macOS" */;
 			buildPhases = (
 				A60000010000000000000001 /* Sources */,
 				A30000010000000000000001 /* Frameworks */,
 				A60000010000000000000002 /* Resources */,
+				A60000010000000000000003 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = BlackSwan;
-			productName = BlackSwan;
-			productReference = A2000001000000000000000F /* BlackSwan.app */;
+			name = "Slipnet-macOS";
+			productName = "Slipnet-macOS";
+			productReference = A2000001000000000000000F /* Slipnet-macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -152,7 +169,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A50000010000000000000001 /* BlackSwan */,
+				A50000010000000000000001 /* Slipnet-macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -319,15 +336,15 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "BlackSwan - Slipnet macOS";
+				INFOPLIST_KEY_CFBundleDisplayName = "Slipnet-macOS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright 2024 amirhp.com. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright 2026 amirhp.com. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.amirhp.BlackSwan;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amirhp.SlipnetMacOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -347,15 +364,15 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "BlackSwan - Slipnet macOS";
+				INFOPLIST_KEY_CFBundleDisplayName = "Slipnet-macOS";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright 2024 amirhp.com. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright 2026 amirhp.com. All rights reserved.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.amirhp.BlackSwan;
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amirhp.SlipnetMacOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -375,7 +392,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A70000010000000000000003 /* Build configuration list for PBXNativeTarget "BlackSwan" */ = {
+		A70000010000000000000003 /* Build configuration list for PBXNativeTarget "Slipnet-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A9000001000000000000000A /* Debug */,

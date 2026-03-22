@@ -123,7 +123,7 @@ struct SidebarView: View {
     private func importProfile() {
         let trimmed = importText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard trimmed.hasPrefix("slipnet://") || trimmed.hasPrefix("slipnet-enc://") else {
-            appState.appendOutput("[BlackSwan] Invalid URI format. Must start with slipnet:// or slipnet-enc://\n")
+            appState.appendOutput("[Slipnet-macOS] Invalid URI format. Must start with slipnet:// or slipnet-enc://\n")
             importText = ""
             return
         }

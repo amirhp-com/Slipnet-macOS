@@ -34,13 +34,21 @@ struct ScanView: View {
             Divider()
 
             // Mode selector
-            Picker("Scan Mode", selection: $scanMode) {
-                ForEach(ScanMode.allCases, id: \.self) { mode in
-                    Text(mode.rawValue).tag(mode)
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Scan Mode")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal)
+
+                Picker("Scan Mode", selection: $scanMode) {
+                    ForEach(ScanMode.allCases, id: \.self) { mode in
+                        Text(mode.rawValue).tag(mode)
+                    }
                 }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .padding(.horizontal)
             }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
             .padding(.top, 12)
             .onChange(of: scanMode) { _, mode in
                 applyScanMode(mode)

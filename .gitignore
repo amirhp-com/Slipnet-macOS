@@ -28,7 +28,6 @@ xcuserdata/
 # Binaries
 slipnet
 slipnet.backup
-BlackSwan.app
 
 # SwiftPM
 .build/

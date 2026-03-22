@@ -57,8 +57,8 @@ class AppState: ObservableObject {
         let bundle = Bundle.main.bundlePath
         let bundleDir = (bundle as NSString).deletingLastPathComponent
         let candidates = [
+            bundle + "/Contents/MacOS/slipnet",
             bundleDir + "/slipnet",
-            NSHomeDirectory() + "/Documents/WorkStuff/VPN-slipnet/slipnet",
             "/usr/local/bin/slipnet",
             "/opt/homebrew/bin/slipnet"
         ]
@@ -136,13 +136,13 @@ class AppState: ObservableObject {
 
     private func fetchSlipnetVersion() {
         guard !slipnetPath.isEmpty else {
-            appendOutput("[BlackSwan] v1.1.0 — SlipNet macOS Client\n")
-            appendOutput("[BlackSwan] slipnet binary not found. Set the path in Settings.\n\n")
+            appendOutput("[Slipnet-macOS] v1.2.0 — SlipNet macOS Client\n")
+            appendOutput("[Slipnet-macOS] slipnet binary not found. Set the path in Settings.\n\n")
             return
         }
 
-        appendOutput("[BlackSwan] v1.1.0 — SlipNet macOS Client\n")
-        appendOutput("[BlackSwan] Binary: \(slipnetPath)\n")
+        appendOutput("[Slipnet-macOS] v1.2.0 — SlipNet macOS Client\n")
+        appendOutput("[Slipnet-macOS] Binary: \(slipnetPath)\n")
 
         Task.detached { [slipnetPath] in
             let proc = Process()
@@ -157,12 +157,12 @@ class AppState: ObservableObject {
                 let data = pipe.fileHandleForReading.readDataToEndOfFile()
                 let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "unknown"
                 await MainActor.run {
-                    self.appendOutput("[BlackSwan] SlipNet Core: \(output)\n")
+                    self.appendOutput("[Slipnet-macOS] SlipNet Core: \(output)\n")
                     self.appendOutput("─────────────────────────────────────────────────\n\n")
                 }
             } catch {
                 await MainActor.run {
-                    self.appendOutput("[BlackSwan] Could not fetch slipnet version.\n")
+                    self.appendOutput("[Slipnet-macOS] Could not fetch slipnet version.\n")
                     self.appendOutput("─────────────────────────────────────────────────\n\n")
                 }
             }
@@ -173,11 +173,11 @@ class AppState: ObservableObject {
 
     func runCustomCommand(_ args: [String]) {
         guard !slipnetPath.isEmpty else {
-            appendOutput("[BlackSwan] Error: slipnet binary not found. Set the path in Settings.\n")
+            appendOutput("[Slipnet-macOS] Error: slipnet binary not found. Set the path in Settings.\n")
             return
         }
 
-        appendOutput("\n[BlackSwan] > slipnet \(args.joined(separator: " "))\n")
+        appendOutput("\n[Slipnet-macOS] > slipnet \(args.joined(separator: " "))\n")
 
         Task.detached { [slipnetPath] in
             let proc = Process()
@@ -195,11 +195,11 @@ class AppState: ObservableObject {
                 await MainActor.run {
                     self.appendOutput(output)
                     if !output.hasSuffix("\n") { self.appendOutput("\n") }
-                    self.appendOutput("[BlackSwan] Command exited with code \(proc.terminationStatus)\n")
+                    self.appendOutput("[Slipnet-macOS] Command exited with code \(proc.terminationStatus)\n")
                 }
             } catch {
                 await MainActor.run {
-                    self.appendOutput("[BlackSwan] Failed to run: \(error.localizedDescription)\n")
+                    self.appendOutput("[Slipnet-macOS] Failed to run: \(error.localizedDescription)\n")
                 }
             }
         }
@@ -207,12 +207,12 @@ class AppState: ObservableObject {
 
     func connect(config: SlipnetConfig) {
         guard !slipnetPath.isEmpty else {
-            appendOutput("[BlackSwan] Error: slipnet binary not found. Set the path in Settings.\n")
+            appendOutput("[Slipnet-macOS] Error: slipnet binary not found. Set the path in Settings.\n")
             connectionStatus = .error
             return
         }
         guard !config.uri.isEmpty else {
-            appendOutput("[BlackSwan] Error: No slipnet URI configured for this profile.\n")
+            appendOutput("[Slipnet-macOS] Error: No slipnet URI configured for this profile.\n")
             connectionStatus = .error
             return
         }
@@ -222,7 +222,7 @@ class AppState: ObservableObject {
         connectionStatus = .connecting
 
         let args = config.buildArguments()
-        appendOutput("[BlackSwan] Connecting: \(slipnetPath) \(args.joined(separator: " "))\n")
+        appendOutput("[Slipnet-macOS] Connecting: \(slipnetPath) \(args.joined(separator: " "))\n")
         appendOutput("─────────────────────────────────────────────────\n")
 
         runProcess(arguments: args)
@@ -230,7 +230,7 @@ class AppState: ObservableObject {
 
     func connectWithCustomArgs(_ args: [String]) {
         guard !slipnetPath.isEmpty else {
-            appendOutput("[BlackSwan] Error: slipnet binary not found. Set the path in Settings.\n")
+            appendOutput("[Slipnet-macOS] Error: slipnet binary not found. Set the path in Settings.\n")
             connectionStatus = .error
             return
         }
@@ -239,7 +239,7 @@ class AppState: ObservableObject {
         clearOutput()
         connectionStatus = .connecting
 
-        appendOutput("[BlackSwan] Running: \(slipnetPath) \(args.joined(separator: " "))\n")
+        appendOutput("[Slipnet-macOS] Running: \(slipnetPath) \(args.joined(separator: " "))\n")
         appendOutput("─────────────────────────────────────────────────\n")
 
         runProcess(arguments: args)
@@ -247,7 +247,7 @@ class AppState: ObservableObject {
 
     func runScan() {
         guard !slipnetPath.isEmpty else {
-            appendOutput("[BlackSwan] Error: slipnet binary not found. Set the path in Settings.\n")
+            appendOutput("[Slipnet-macOS] Error: slipnet binary not found. Set the path in Settings.\n")
             connectionStatus = .error
             return
         }
@@ -257,7 +257,7 @@ class AppState: ObservableObject {
         connectionStatus = .scanning
 
         let args = scanConfig.buildArguments()
-        appendOutput("[BlackSwan] Scanning: \(slipnetPath) \(args.joined(separator: " "))\n")
+        appendOutput("[Slipnet-macOS] Scanning: \(slipnetPath) \(args.joined(separator: " "))\n")
         appendOutput("─────────────────────────────────────────────────\n")
 
         runProcess(arguments: args)
@@ -305,7 +305,7 @@ class AppState: ObservableObject {
         proc.terminationHandler = { [weak self] proc in
             Task { @MainActor [weak self] in
                 self?.appendOutput("\n─────────────────────────────────────────────────\n")
-                self?.appendOutput("[BlackSwan] Process exited with code \(proc.terminationStatus)\n")
+                self?.appendOutput("[Slipnet-macOS] Process exited with code \(proc.terminationStatus)\n")
                 if self?.connectionStatus != .error {
                     self?.connectionStatus = .disconnected
                 }
@@ -317,7 +317,7 @@ class AppState: ObservableObject {
             try proc.run()
             process = proc
         } catch {
-            appendOutput("[BlackSwan] Failed to start: \(error.localizedDescription)\n")
+            appendOutput("[Slipnet-macOS] Failed to start: \(error.localizedDescription)\n")
             connectionStatus = .error
         }
     }
@@ -330,7 +330,7 @@ class AppState: ObservableObject {
 
         if let proc = process, proc.isRunning {
             proc.terminate()
-            appendOutput("\n[BlackSwan] Stopping...\n")
+            appendOutput("\n[Slipnet-macOS] Stopping...\n")
             // Give it a moment, then force kill if needed
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
                 if proc.isRunning {
@@ -348,7 +348,7 @@ class AppState: ObservableObject {
 
     func pasteAndConnect() {
         guard let clipboard = NSPasteboard.general.string(forType: .string) else {
-            appendOutput("[BlackSwan] Clipboard is empty or doesn't contain text.\n")
+            appendOutput("[Slipnet-macOS] Clipboard is empty or doesn't contain text.\n")
             return
         }
 
@@ -359,8 +359,8 @@ class AppState: ObservableObject {
             config.name = "Clipboard (\(Date().formatted(date: .abbreviated, time: .shortened)))"
             connect(config: config)
         } else {
-            appendOutput("[BlackSwan] Clipboard doesn't contain a valid slipnet:// URI.\n")
-            appendOutput("[BlackSwan] Content: \(String(trimmed.prefix(100)))...\n")
+            appendOutput("[Slipnet-macOS] Clipboard doesn't contain a valid slipnet:// URI.\n")
+            appendOutput("[Slipnet-macOS] Content: \(String(trimmed.prefix(100)))...\n")
         }
     }
 
@@ -368,7 +368,7 @@ class AppState: ObservableObject {
 
     func enableSOCKSProxy() {
         guard connectionStatus == .connected else {
-            appendOutput("[BlackSwan] Cannot enable SOCKS proxy: not connected.\n")
+            appendOutput("[Slipnet-macOS] Cannot enable SOCKS proxy: not connected.\n")
             return
         }
 
@@ -394,14 +394,14 @@ class AppState: ObservableObject {
                 await MainActor.run {
                     if proc.terminationStatus == 0 {
                         self.socksProxyEnabled = true
-                        self.appendOutput("[BlackSwan] SOCKS proxy enabled on \(iface) → \(host):\(port)\n")
+                        self.appendOutput("[Slipnet-macOS] SOCKS proxy enabled on \(iface) → \(host):\(port)\n")
                     } else {
-                        self.appendOutput("[BlackSwan] Failed to enable SOCKS proxy: \(output)\n")
+                        self.appendOutput("[Slipnet-macOS] Failed to enable SOCKS proxy: \(output)\n")
                     }
                 }
             } catch {
                 await MainActor.run {
-                    self.appendOutput("[BlackSwan] Failed to run networksetup: \(error.localizedDescription)\n")
+                    self.appendOutput("[Slipnet-macOS] Failed to run networksetup: \(error.localizedDescription)\n")
                 }
             }
         }
@@ -421,11 +421,11 @@ class AppState: ObservableObject {
                 proc.waitUntilExit()
                 await MainActor.run {
                     self.socksProxyEnabled = false
-                    self.appendOutput("[BlackSwan] SOCKS proxy disabled on \(iface)\n")
+                    self.appendOutput("[Slipnet-macOS] SOCKS proxy disabled on \(iface)\n")
                 }
             } catch {
                 await MainActor.run {
-                    self.appendOutput("[BlackSwan] Failed to disable SOCKS proxy: \(error.localizedDescription)\n")
+                    self.appendOutput("[Slipnet-macOS] Failed to disable SOCKS proxy: \(error.localizedDescription)\n")
                 }
             }
         }

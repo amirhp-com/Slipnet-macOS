@@ -33,6 +33,7 @@ struct SettingsView: View {
                         .cornerRadius(8)
                     }
                     .buttonStyle(.plain)
+                    .focusable(false)
                 }
             }
             .padding(8)
@@ -120,11 +121,12 @@ struct SettingsView: View {
 
                     Button("Detect Automatically") {
                         appState.setSlipnetPath("")
-                        // Re-trigger detection
                         let appStateRef = appState
+                        let bundle = Bundle.main.bundlePath
+                        let bundleDir = (bundle as NSString).deletingLastPathComponent
                         let candidates = [
-                            Bundle.main.bundlePath.replacingOccurrences(of: "/BlackSwan.app", with: "") + "/slipnet",
-                            NSHomeDirectory() + "/Documents/WorkStuff/VPN-slipnet/slipnet",
+                            bundle + "/Contents/MacOS/slipnet",
+                            bundleDir + "/slipnet",
                             "/usr/local/bin/slipnet",
                             "/opt/homebrew/bin/slipnet"
                         ]
@@ -366,15 +368,15 @@ struct SettingsView: View {
         VStack(spacing: 20) {
             Spacer()
 
-            Image(systemName: "network.badge.shield.half.filled")
-                .font(.system(size: 64))
-                .foregroundStyle(.cyan)
+            Image(nsImage: NSApp.applicationIconImage)
+                .resizable()
+                .frame(width: 128, height: 128)
 
-            Text("BlackSwan")
+            Text("Slipnet-macOS")
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            Text("Slipnet macOS")
+            Text("SlipNet macOS Client")
                 .font(.title3)
                 .foregroundStyle(.secondary)
 
@@ -404,7 +406,7 @@ struct SettingsView: View {
                     .font(.caption)
             }
 
-            Text("v1.1.0")
+            Text("v1.2.0")
                 .font(.caption2)
                 .foregroundStyle(.quaternary)
 
