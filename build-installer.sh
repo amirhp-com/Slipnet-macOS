@@ -4,7 +4,7 @@ set -euo pipefail
 # ─── Configuration ───
 APP_NAME="Slipnet-macOS"
 PKG_NAME="Slipnet-macOS-Installer"
-VERSION="1.3.0"
+VERSION="1.4.0"
 IDENTIFIER="com.amirhp.SlipnetMacOS"
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 BUILD_DIR="${PROJECT_DIR}/build"

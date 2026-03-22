@@ -8,7 +8,9 @@ A native macOS GUI client for [SlipNet](https://github.com/anonvector/SlipNet) â
 
 ## Screenshots
 
-![Slipnet-macOS Screenshot](screenshot.png)
+<p align="center">
+  <img src="screenshot.png" alt="Slipnet-macOS Screenshot" width="800">
+</p>
 
 ## Features
 
