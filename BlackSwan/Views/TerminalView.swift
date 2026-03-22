@@ -94,6 +94,17 @@ struct TerminalView: View {
                 .tint(.cyan)
                 .disabled(customCommand.trimmingCharacters(in: .whitespaces).isEmpty || appState.slipnetPath.isEmpty)
                 .help("Run command via slipnet")
+
+                if appState.isRunning {
+                    Button {
+                        appState.stop()
+                    } label: {
+                        Image(systemName: "stop.fill")
+                    }
+                    .buttonStyle(.borderless)
+                    .foregroundStyle(.red)
+                    .help("Terminate running process")
+                }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)

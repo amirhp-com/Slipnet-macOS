@@ -406,7 +406,15 @@ struct SettingsView: View {
                     .font(.caption)
             }
 
-            Text("v1.2.0")
+            VStack(spacing: 4) {
+                Text("GitHub")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+                Link("github.com/amirhp-com/Slipnet-macOS", destination: URL(string: "https://github.com/amirhp-com/Slipnet-macOS")!)
+                    .font(.caption)
+            }
+
+            Text("v1.3.0")
                 .font(.caption2)
                 .foregroundStyle(.quaternary)
 
