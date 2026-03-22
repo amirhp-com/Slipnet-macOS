@@ -136,12 +136,12 @@ class AppState: ObservableObject {
 
     private func fetchSlipnetVersion() {
         guard !slipnetPath.isEmpty else {
-            appendOutput("[Slipnet-macOS] v1.4.0 — SlipNet macOS Client\n")
+            appendOutput("[Slipnet-macOS] v1.5.0 — SlipNet macOS Client\n")
             appendOutput("[Slipnet-macOS] slipnet binary not found. Set the path in Settings.\n\n")
             return
         }
 
-        appendOutput("[Slipnet-macOS] v1.4.0 — SlipNet macOS Client\n")
+        appendOutput("[Slipnet-macOS] v1.5.0 — SlipNet macOS Client\n")
         appendOutput("[Slipnet-macOS] Binary: \(slipnetPath)\n")
 
         Task.detached { [slipnetPath] in
@@ -177,32 +177,14 @@ class AppState: ObservableObject {
             return
         }
 
+        // Stop previous process but keep terminal output
+        if isRunning {
+            stopProcess()
+        }
+
         appendOutput("\n[Slipnet-macOS] > slipnet \(args.joined(separator: " "))\n")
 
-        Task.detached { [slipnetPath] in
-            let proc = Process()
-            proc.executableURL = URL(fileURLWithPath: slipnetPath)
-            proc.arguments = args
-            proc.currentDirectoryURL = URL(fileURLWithPath: (slipnetPath as NSString).deletingLastPathComponent)
-            let pipe = Pipe()
-            proc.standardOutput = pipe
-            proc.standardError = pipe
-            do {
-                try proc.run()
-                proc.waitUntilExit()
-                let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                let output = String(data: data, encoding: .utf8) ?? ""
-                await MainActor.run {
-                    self.appendOutput(output)
-                    if !output.hasSuffix("\n") { self.appendOutput("\n") }
-                    self.appendOutput("[Slipnet-macOS] Command exited with code \(proc.terminationStatus)\n")
-                }
-            } catch {
-                await MainActor.run {
-                    self.appendOutput("[Slipnet-macOS] Failed to run: \(error.localizedDescription)\n")
-                }
-            }
-        }
+        runProcess(arguments: args)
     }
 
     func connect(config: SlipnetConfig) {
@@ -322,16 +304,10 @@ class AppState: ObservableObject {
         }
     }
 
-    func stop() {
-        // Auto-disable SOCKS proxy when disconnecting
-        if socksProxyEnabled {
-            disableSOCKSProxy()
-        }
-
+    private func stopProcess() {
         if let proc = process, proc.isRunning {
             proc.terminate()
             appendOutput("\n[Slipnet-macOS] Stopping...\n")
-            // Give it a moment, then force kill if needed
             DispatchQueue.global().asyncAfter(deadline: .now() + 2) {
                 if proc.isRunning {
                     proc.interrupt()
@@ -339,6 +315,13 @@ class AppState: ObservableObject {
             }
         }
         process = nil
+    }
+
+    func stop() {
+        if socksProxyEnabled {
+            disableSOCKSProxy()
+        }
+        stopProcess()
         connectionStatus = .disconnected
     }
 

@@ -85,25 +85,25 @@ struct TerminalView: View {
                         runCustomCommand()
                     }
 
-                Button {
-                    runCustomCommand()
-                } label: {
-                    Image(systemName: "play.fill")
-                }
-                .buttonStyle(.borderless)
-                .tint(.cyan)
-                .disabled(customCommand.trimmingCharacters(in: .whitespaces).isEmpty || appState.slipnetPath.isEmpty)
-                .help("Run command via slipnet")
-
                 if appState.isRunning {
                     Button {
                         appState.stop()
                     } label: {
                         Image(systemName: "stop.fill")
+                            .foregroundStyle(.red)
                     }
                     .buttonStyle(.borderless)
-                    .foregroundStyle(.red)
                     .help("Terminate running process")
+                } else {
+                    Button {
+                        runCustomCommand()
+                    } label: {
+                        Image(systemName: "play.fill")
+                    }
+                    .buttonStyle(.borderless)
+                    .tint(.cyan)
+                    .disabled(customCommand.trimmingCharacters(in: .whitespaces).isEmpty || appState.slipnetPath.isEmpty)
+                    .help("Run command via slipnet")
                 }
             }
             .padding(.horizontal, 12)
