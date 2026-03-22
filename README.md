@@ -9,6 +9,7 @@ A native macOS GUI client for [SlipNet](https://github.com/anonvector/SlipNet) �
 ## Features
 
 - **Profile Management** — Create, edit, duplicate, import, and manage multiple SlipNet connection profiles
+- **Custom Command Runner** — Run any slipnet command directly from the terminal panel
 - **Quick Connect** — Paste a `slipnet://` or `slipnet-enc://` URI from clipboard and connect instantly
 - **Built-in DNS Scanner** — Scan DNS resolvers with multiple modes:
   - Basic DNS Scan

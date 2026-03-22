@@ -88,16 +88,22 @@ struct DetailView: View {
 
             // SOCKS Proxy toggle
             if appState.connectionStatus == .connected {
-                Button {
-                    appState.toggleSOCKSProxy()
-                } label: {
-                    Label(
-                        appState.socksProxyEnabled ? "Proxy On" : "System Proxy",
-                        systemImage: appState.socksProxyEnabled ? "globe.badge.chevron.backward" : "globe"
-                    )
+                if appState.socksProxyEnabled {
+                    Button {
+                        appState.toggleSOCKSProxy()
+                    } label: {
+                        Label("Proxy On", systemImage: "globe.badge.chevron.backward")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.orange)
+                } else {
+                    Button {
+                        appState.toggleSOCKSProxy()
+                    } label: {
+                        Label("System Proxy", systemImage: "globe")
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(appState.socksProxyEnabled ? .borderedProminent : .bordered)
-                .tint(appState.socksProxyEnabled ? .orange : nil)
             }
 
             Spacer()

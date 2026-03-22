@@ -3,6 +3,7 @@ import SwiftUI
 struct TerminalView: View {
     @EnvironmentObject var appState: AppState
     @State private var autoScroll = true
+    @State private var customCommand = ""
 
     var body: some View {
         VStack(spacing: 0) {
@@ -68,6 +69,44 @@ struct TerminalView: View {
                     }
                 }
             }
+
+            Divider()
+
+            // Custom command runner
+            HStack(spacing: 8) {
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .foregroundStyle(.cyan)
+
+                TextField("slipnet command args (e.g. --version, --help, scan ...)", text: $customCommand)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 12, design: .monospaced))
+                    .onSubmit {
+                        runCustomCommand()
+                    }
+
+                Button {
+                    runCustomCommand()
+                } label: {
+                    Image(systemName: "play.fill")
+                }
+                .buttonStyle(.borderless)
+                .tint(.cyan)
+                .disabled(customCommand.trimmingCharacters(in: .whitespaces).isEmpty || appState.slipnetPath.isEmpty)
+                .help("Run command via slipnet")
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .background(Color(red: 0.07, green: 0.07, blue: 0.1))
         }
+    }
+
+    private func runCustomCommand() {
+        let cmd = customCommand.trimmingCharacters(in: .whitespaces)
+        guard !cmd.isEmpty else { return }
+
+        let args = cmd.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
+        appState.runCustomCommand(args)
+        customCommand = ""
     }
 }

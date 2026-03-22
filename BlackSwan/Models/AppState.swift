@@ -44,6 +44,7 @@ class AppState: ObservableObject {
     init() {
         loadConfigs()
         detectSlipnetPath()
+        fetchSlipnetVersion()
     }
 
     private func detectSlipnetPath() {
@@ -129,6 +130,79 @@ class AppState: ObservableObject {
 
     func clearOutput() {
         terminalOutput = ""
+    }
+
+    // MARK: - Startup Version Info
+
+    private func fetchSlipnetVersion() {
+        guard !slipnetPath.isEmpty else {
+            appendOutput("[BlackSwan] v1.1.0 — SlipNet macOS Client\n")
+            appendOutput("[BlackSwan] slipnet binary not found. Set the path in Settings.\n\n")
+            return
+        }
+
+        appendOutput("[BlackSwan] v1.1.0 — SlipNet macOS Client\n")
+        appendOutput("[BlackSwan] Binary: \(slipnetPath)\n")
+
+        Task.detached { [slipnetPath] in
+            let proc = Process()
+            proc.executableURL = URL(fileURLWithPath: slipnetPath)
+            proc.arguments = ["--version"]
+            let pipe = Pipe()
+            proc.standardOutput = pipe
+            proc.standardError = pipe
+            do {
+                try proc.run()
+                proc.waitUntilExit()
+                let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "unknown"
+                await MainActor.run {
+                    self.appendOutput("[BlackSwan] SlipNet Core: \(output)\n")
+                    self.appendOutput("─────────────────────────────────────────────────\n\n")
+                }
+            } catch {
+                await MainActor.run {
+                    self.appendOutput("[BlackSwan] Could not fetch slipnet version.\n")
+                    self.appendOutput("─────────────────────────────────────────────────\n\n")
+                }
+            }
+        }
+    }
+
+    // MARK: - Custom Commands
+
+    func runCustomCommand(_ args: [String]) {
+        guard !slipnetPath.isEmpty else {
+            appendOutput("[BlackSwan] Error: slipnet binary not found. Set the path in Settings.\n")
+            return
+        }
+
+        appendOutput("\n[BlackSwan] > slipnet \(args.joined(separator: " "))\n")
+
+        Task.detached { [slipnetPath] in
+            let proc = Process()
+            proc.executableURL = URL(fileURLWithPath: slipnetPath)
+            proc.arguments = args
+            proc.currentDirectoryURL = URL(fileURLWithPath: (slipnetPath as NSString).deletingLastPathComponent)
+            let pipe = Pipe()
+            proc.standardOutput = pipe
+            proc.standardError = pipe
+            do {
+                try proc.run()
+                proc.waitUntilExit()
+                let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                let output = String(data: data, encoding: .utf8) ?? ""
+                await MainActor.run {
+                    self.appendOutput(output)
+                    if !output.hasSuffix("\n") { self.appendOutput("\n") }
+                    self.appendOutput("[BlackSwan] Command exited with code \(proc.terminationStatus)\n")
+                }
+            } catch {
+                await MainActor.run {
+                    self.appendOutput("[BlackSwan] Failed to run: \(error.localizedDescription)\n")
+                }
+            }
+        }
     }
 
     func connect(config: SlipnetConfig) {
