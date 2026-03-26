@@ -15,7 +15,7 @@ echo "=== Building ${APP_NAME} v${VERSION} ==="
 
 # ─── Step 1: Build the app (Release, Universal Binary) ───
 echo "[1/5] Building app with xcodebuild..."
-xcodebuild -project "${PROJECT_DIR}/BlackSwan.xcodeproj" \
+xcodebuild -project "${PROJECT_DIR}/Slipnet-macOS.xcodeproj" \
     -scheme "Slipnet-macOS" \
     -configuration Release \
     -archivePath "${BUILD_DIR}/${APP_NAME}.xcarchive" \

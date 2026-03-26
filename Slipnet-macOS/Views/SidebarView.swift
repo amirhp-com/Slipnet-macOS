@@ -12,7 +12,7 @@ struct SidebarView: View {
                 Image(systemName: "network.badge.shield.half.filled")
                     .font(.system(size: 32))
                     .foregroundStyle(.cyan)
-                Text("BlackSwan")
+                Text("Slipnet-macOS")
                     .font(.headline)
                     .fontWeight(.bold)
                 Text("Slipnet macOS")

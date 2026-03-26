@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct BlackSwanApp: App {
+struct SlipnetMacOSApp: App {
     @StateObject private var appState = AppState()
 
     var body: some Scene {

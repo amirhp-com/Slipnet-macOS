@@ -48,7 +48,7 @@ Download `Slipnet-macOS-Installer.pkg` from the [releases](https://github.com/am
    ```bash
    git clone https://github.com/amirhp-com/Slipnet-macOS.git
    ```
-2. Open `BlackSwan.xcodeproj` in Xcode
+2. Open `Slipnet-macOS.xcodeproj` in Xcode
 3. Build and run (Cmd+R)
 
 ## Usage
@@ -77,8 +77,8 @@ You can configure the network interface (default: Wi-Fi) in **Settings > Connect
 ## Project Structure
 
 ```
-BlackSwan/
-├── BlackSwanApp.swift          # App entry point & window config
+Slipnet-macOS/
+├── SlipnetMacOSApp.swift       # App entry point & window config
 ├── Models/
 │   ├── AppState.swift          # Central state management & process execution
 │   ├── SlipnetConfig.swift     # Connection profile data model
