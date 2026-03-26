@@ -136,12 +136,12 @@ class AppState: ObservableObject {
 
     private func fetchSlipnetVersion() {
         guard !slipnetPath.isEmpty else {
-            appendOutput("[Slipnet-macOS] v1.5.0 — SlipNet macOS Client\n")
+            appendOutput("[Slipnet-macOS] v1.6.0 — SlipNet macOS Client\n")
             appendOutput("[Slipnet-macOS] slipnet binary not found. Set the path in Settings.\n\n")
             return
         }
 
-        appendOutput("[Slipnet-macOS] v1.5.0 — SlipNet macOS Client\n")
+        appendOutput("[Slipnet-macOS] v1.6.0 — SlipNet macOS Client\n")
         appendOutput("[Slipnet-macOS] Binary: \(slipnetPath)\n")
 
         Task.detached { [slipnetPath] in

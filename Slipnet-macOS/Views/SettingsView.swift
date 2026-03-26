@@ -414,7 +414,7 @@ struct SettingsView: View {
                     .font(.caption)
             }
 
-            Text("v1.5.0")
+            Text("v1.6.0")
                 .font(.caption2)
                 .foregroundStyle(.quaternary)
 
